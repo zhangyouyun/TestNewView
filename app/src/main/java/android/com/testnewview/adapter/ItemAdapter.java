@@ -1,11 +1,16 @@
-package android.com.testnewview;
+package android.com.testnewview.adapter;
 
+import android.com.testnewview.DiyLayout.CustomTextView;
+import android.com.testnewview.Entity.Item;
+import android.com.testnewview.R;
 import android.content.Context;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import java.util.ArrayList;
@@ -23,6 +28,7 @@ public class ItemAdapter extends BaseAdapter {
         this.item=item;
         this.mInflater = LayoutInflater.from(context);
     }
+    //--------------------------
     public int getCount() {
         return item.size();
     }
@@ -39,10 +45,17 @@ public class ItemAdapter extends BaseAdapter {
             holder = new ViewHolder();
             convertView = mInflater.inflate(R.layout.button, null);
             holder.textView=(TextView)convertView.findViewById(R.id.text);
+            /*Typeface type = Typeface.createFromAsset(getCon(), "arialbd.ttf");
+
+            one.setTypeface (type);*/
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
+        //--------------------------
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.MATCH_PARENT);
+        holder.textView.setLayoutParams(params);
         holder.textView.setText(i.getName());
         holder.textView.setTextColor(convertView.getResources().getColor(R.color.blackuse));
         Drawable drawable = convertView.getResources().getDrawable(i.getId());
@@ -53,10 +66,12 @@ public class ItemAdapter extends BaseAdapter {
         holder.textView.setGravity(View.TEXT_ALIGNMENT_CENTER);
         holder.textView.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Toast.makeText(context, "选中", Toast.LENGTH_SHORT).show();
-                    v.setBackground(v.getResources().getDrawable(R.drawable.corner_click));
+//                if(v.getTag()==1){}
+                Toast.makeText(context, i.getName()+"", Toast.LENGTH_SHORT).show();
+//                    v.setBackground(v.getResources().getDrawable(R.drawable.corner_click));
             }
         });
+//        holder.textView.setOnTouchListener();
         return convertView;
     }
 }

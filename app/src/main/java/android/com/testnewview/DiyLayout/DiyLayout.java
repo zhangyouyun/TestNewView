@@ -1,6 +1,11 @@
-package android.com.testnewview;
+package android.com.testnewview.DiyLayout;
 
+import android.com.testnewview.Entity.Item;
+import android.com.testnewview.R;
+import android.com.testnewview.adapter.ChildAdapter;
+import android.com.testnewview.adapter.ItemAdapter;
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -10,6 +15,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
@@ -17,7 +23,8 @@ import java.util.ArrayList;
 
 public class DiyLayout extends LinearLayout implements OnClickListener {
 	//屏幕宽度
-	private int screenWidth,width1,width2;
+	private int screenWidth,Leftwidth,Rightwidth;
+	//子项适配器
 	private ItemAdapter itemAdapter;
 	private ChildAdapter childAdapter;
 	private ListView listview;
@@ -57,23 +64,24 @@ public class DiyLayout extends LinearLayout implements OnClickListener {
 		this.setLayoutParams(params);
 		this.setBackground(getResources().getDrawable(R.drawable.corner_normal));
 	}
-
+	//--------------------------
 	private void setViews( ArrayList<Item> datas) {
 		num =Remain();
-		Log.i("aaaaa", "" + num);
+//		Log.i("aaaaa", "" + num);
 		for (int i = 0; i < datas.size(); i++) {
 			if(i<num) {
-				CustomTextView btn = datas.get(i).getTv();
-				btn.setText(datas.get(i).getName());
+				CustomTextView customTextView = datas.get(i).getTv();
+				customTextView.setText(datas.get(i).getName());
 				Drawable drawable = getResources().getDrawable(datas.get(i).getId());
-				drawable.setBounds(0, 0, 50, 70);
-				btn.setCompoundDrawables(drawable, null, null, null);
-				btn.setOnClickListener(this);
-				btn.setTag(datas.get(i));
-				/*控件高度*/
-				btn.setHeight(200);
-				btn.setWidth(50 + width(datas.get(i).getName().length(), datas.get(i).getName().getBytes().length));
-				this.addView(btn);
+				drawable.setBounds(0, 0, 40, 80);
+
+				customTextView.setCompoundDrawables(drawable, null, null, null);
+				customTextView.setOnClickListener(this);
+				customTextView.setTag(datas.get(i));
+				customTextView.setTextSize(16);
+				customTextView.setHeight(200);
+				customTextView.setWidth(48 + width(datas.get(i).getName().length(), datas.get(i).getName().getBytes().length));
+				this.addView(customTextView);
 			}else if(i==num){
 				datas2 = new ArrayList<>();
 				datas2.add(datas.get(i));
@@ -89,38 +97,44 @@ public class DiyLayout extends LinearLayout implements OnClickListener {
 					}
 				});
 				this.addView(customTextView);
-			}else {
+			}else if(i>=num){
 				datas2.add(datas.get(i));
 			}
 		}
 	}
 	/*点击时候颜色变化*/
-	public void onClick(View arg0) {
-		Item data = (Item) arg0.getTag();
+	public void onClick(View view) {
+		Item data = (Item) view.getTag();
 		if (data.isCheck()) {
-			arg0.setBackground(getResources().getDrawable(R.drawable.corner_click));
+			view.setBackground(getResources().getDrawable(R.drawable.corner_click));
+//			view.setBackgroundColor(view.getResources().getColor(R.color.newcolor));
 		}else{
-			arg0.setBackground(getResources().getDrawable(R.drawable.corner_bian));
+			view.setBackground(getResources().getDrawable(R.drawable.normal));
+////			view.setTextColor(convertView.getResources().getColor(R.color.blackuse));
+//			view.setBackgroundColor(view.getResources().getColor(R.color.normal));
 		}
 		data.setCheck(!data.isCheck());
 		if (listener != null) {
 			listener.showTip(data);
 		}
 		if(data.getChild()!=null) {
-			showChild(arg0,data.getChild());
+			showChild(view,data.getChild());
 		}
 	}
-
+	//--------------------------
 	private MyListener listener;
+
 	public MyListener getListener() {
 		return listener;
 	}
+
 	public void setListener(MyListener listener) {
 		this.listener = listener;
 	}
 	public interface MyListener {
 		public void showTip(Item data);
 	}
+	//--------------------------
 	public int width(int a, int b) {
 		int w = 0;
 		int c, d = 0;
@@ -131,13 +145,13 @@ public class DiyLayout extends LinearLayout implements OnClickListener {
 	}
 //中间控件的长度
 	public int Remain(){
-		int sw = screenWidth-width1-width2;
-		Log.i("aaaaa","screenWidth="+screenWidth+"width1="+width1+"width2="+width2);
+		int sw = screenWidth-Leftwidth-Rightwidth;
+//		Log.i("aaaaa","screenWidth="+screenWidth+"width1="+Leftwidth+"width2="+Rightwidth);
 		for(int i=0;i<datas.size();i++){
 			int w =0;
 			String s = datas.get(i).getName();
-			w =50+width(s.length(),s.getBytes().length);
-			Log.i("aaaaa","sw="+sw+"w"+w);
+			w =48+width(s.length(),s.getBytes().length);
+//			Log.i("aaaaa","sw="+sw+"w"+w);
 			if (sw < w) {
 				if(w>=60){
 					return i;
@@ -149,6 +163,7 @@ public class DiyLayout extends LinearLayout implements OnClickListener {
 		}
 		return datas.size();
 	};
+	//--------------------------
 	private void showPopupWindow(View view) {
 		// 自定义的布局
 		View contentView = LayoutInflater.from(context).inflate(
@@ -163,22 +178,21 @@ public class DiyLayout extends LinearLayout implements OnClickListener {
 		popupWindow.setOutsideTouchable(true);
 		popupWindow.update();
 		popupWindow.setBackgroundDrawable(getResources().getDrawable(
-				R.drawable.corner_bian));
+				R.drawable.corner_listview));
 		popupWindow.setTouchInterceptor(new OnTouchListener() {
 			public boolean onTouch(View v, MotionEvent event) {
 				return false;
 			}
 		});
-		popupWindow.showAsDropDown(view, Gravity.CENTER, 0, 0);
-//		popupWindow.setOnDismissListener();
-
+		popupWindow.showAsDropDown(view,0,0);
+//		popupWindow.setOnDismissListener();, Gravity.CENTER, 0, 0
 	}
+	// 子项的布局
 	private void showChild(View view,String[] s) {
-		// 自定义的布局
 		View contentView = LayoutInflater.from(context).inflate(
-				R.layout.listview, null);
+				R.layout.childlistview, null);
 		childAdapter=new ChildAdapter(context,s);
-		listview=(ListView)contentView.findViewById(R.id.listview);
+		listview=(ListView)contentView.findViewById(R.id.childlistview);
 		listview.setAdapter(childAdapter);
 
 		final PopupWindow popupWindow = new PopupWindow(contentView,
@@ -187,13 +201,21 @@ public class DiyLayout extends LinearLayout implements OnClickListener {
 		popupWindow.setOutsideTouchable(true);
 		popupWindow.update();
 		popupWindow.setBackgroundDrawable(getResources().getDrawable(
-				R.drawable.corner_bian));
+				R.drawable.corner_listview));
 		popupWindow.setTouchInterceptor(new OnTouchListener() {
 			public boolean onTouch(View v, MotionEvent event) {
 				return false;
 			}
 		});
-		popupWindow.showAsDropDown(view, Gravity.CENTER, 0, 0);
+		/*WindowManager windowManager = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
+		int xPos = -popupWindow.getWidth() / 2
+				+ getCustomTitle().getCenter().getWidth() / 2;
+
+		popupWindow.showAsDropDown(parent, xPos, 4);*/
+
+		/*popupWindow.showAtLocation(view,  Gravity.NO_GRAVITY, 0, 0);*/
+		popupWindow.showAsDropDown(view);
+		/*, Gravity.CENTER, 0, 0*/
 	}
 	public int getScreenWidth() {
 		return screenWidth;
@@ -201,21 +223,17 @@ public class DiyLayout extends LinearLayout implements OnClickListener {
 	public void setScreenWidth(int screenWidth) {
 		this.screenWidth = screenWidth;
 	}
-
-	public int getWidth1() {
-		return width1;
+	public int getLeftwidth() {
+		return Leftwidth;
 	}
-
-	public void setWidth1(int width1) {
-		this.width1 = width1;
+	public void setLeftwidth(int Leftwidth) {
+		this.Leftwidth = Leftwidth;
 	}
-
-	public int getWidth2() {
-		return width2;
+	public int getRightwidth() {
+		return Rightwidth;
 	}
-
-	public void setWidth2(int width2) {
-		this.width2 = width2;
+	public void setRightwidth(int Rightwidth) {
+		this.Rightwidth = Rightwidth;
 	}
 
 }

@@ -1,4 +1,6 @@
-package android.com.testnewview;
+package android.com.testnewview.Entity;
+
+import android.com.testnewview.DiyLayout.CustomTextView;
 
 import java.util.Arrays;
 

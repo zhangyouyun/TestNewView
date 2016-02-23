@@ -2,24 +2,36 @@
               xmlns:tools="http://schemas.android.com/tools"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:orientation="horizontal">
+              android:orientation="horizontal"
 
-    <android.com.testnewview.DiyLayout
-        android:id="@+id/cl"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-
-    <android.com.testnewview.DiyLayout
-        android:id="@+id/cl3"
+    >
+    <android.com.testnewview.DiyLayout.DiyLayout
+        android:id="@+id/leftlayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"/>
+        android:layout_alignParentLeft="true"
+        android:layout_marginTop="2dp"
+        android:layout_marginLeft="1dp"
+        android:layout_marginRight="3dp"
+       />
 
-    <android.com.testnewview.DiyLayout
-        android:id="@+id/cl2"
+    <android.com.testnewview.DiyLayout.DiyLayout
+        android:id="@+id/rightlayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toLeftOf="@id/cl3"
-        android:layout_toRightOf="@id/cl"/>
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="1dp"
+        android:layout_marginTop="2dp"
+        />
+<!--   -->
+    <android.com.testnewview.DiyLayout.DiyLayout
+        android:id="@+id/middlelayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@id/rightlayout"
+        android:layout_toRightOf="@id/leftlayout"
+        android:layout_marginRight="3dp"
+        android:layout_marginTop="2dp"
+     />
 
 </RelativeLayout>
