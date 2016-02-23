@@ -56,7 +56,7 @@ public class MainActivity extends Activity {
         final CustomTextView btn4 = new CustomTextView(this);
         final CustomTextView btnb = new CustomTextView(this);
         final CustomTextView btnb1 = new CustomTextView(this);
-        Item d2 = new Item("签到", true, btn2, R.drawable.tick);
+        Item d2 = new Item("签到1", true, btn2, R.drawable.tick);
         Item d3 = new Item("返回", true, btn3, R.drawable.back);
         Item d4 = new Item("开始汇报", true, btn4, R.drawable.tickone);
         Item dd = new Item("签到", true, btnb, R.drawable.htbj);
