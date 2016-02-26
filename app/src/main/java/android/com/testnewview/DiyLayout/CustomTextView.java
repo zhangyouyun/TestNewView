@@ -1,6 +1,6 @@
 package android.com.testnewview.DiyLayout;
 
-import android.com.testnewview.R;
+import android.com.testnewview.Util;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.Gravity;
@@ -8,6 +8,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class CustomTextView extends TextView {
+//    private Util util;
+
     public CustomTextView(Context context) {
         super(context);
         initView(context);
@@ -15,6 +17,7 @@ public class CustomTextView extends TextView {
 
     public CustomTextView(Context context, AttributeSet attrs) {
         super(context, attrs);
+//        this.util=util;
         initView(context);
     }
     //--------------------------

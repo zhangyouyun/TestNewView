@@ -69,7 +69,7 @@ public class ChildAdapter extends BaseAdapter{
 //                    v.setBackground(v.getResources().getDrawable(R.drawable.normal));
 //                }
                 Toast.makeText(context, s + "", Toast.LENGTH_SHORT).show();
-
+                v.setBackground(v.getResources().getDrawable(R.drawable.selector));
 
             }
         });

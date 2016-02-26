@@ -2,6 +2,7 @@ package android.com.testnewview.DiyLayout;
 
 import android.com.testnewview.Entity.Item;
 import android.com.testnewview.R;
+import android.com.testnewview.Util;
 import android.com.testnewview.adapter.ChildAdapter;
 import android.com.testnewview.adapter.ItemAdapter;
 import android.content.Context;
@@ -79,7 +80,7 @@ public class DiyLayout extends LinearLayout implements OnClickListener {
 				customTextView.setOnClickListener(this);
 				customTextView.setTag(datas.get(i));
 				customTextView.setTextSize(16);
-				customTextView.setHeight(200);
+				customTextView.setHeight(Util.px2dip(context,200));
 				customTextView.setWidth(48 + width(datas.get(i).getName().length(), datas.get(i).getName().getBytes().length));
 				this.addView(customTextView);
 			}else if(i==num){
@@ -87,9 +88,10 @@ public class DiyLayout extends LinearLayout implements OnClickListener {
 				datas2.add(datas.get(i));
 				CustomTextView customTextView = new CustomTextView(getContext());
 				customTextView.setText("更多");
+//				customTextView.setTextSize(Util.px2dip(context, 16));
 				customTextView.setOnClickListener(this);
 				customTextView.setTag(datas.get(i));
-				customTextView.setHeight(200);
+				customTextView.setHeight(Util.px2dip(context,200));
 				customTextView.setWidth(width(datas.get(i).getName().length(), datas.get(i).getName().getBytes().length));
 				customTextView.setOnClickListener(new OnClickListener() {
 					public void onClick(View v) {
@@ -132,7 +134,7 @@ public class DiyLayout extends LinearLayout implements OnClickListener {
 		this.listener = listener;
 	}
 	public interface MyListener {
-		public void showTip(Item data);
+		 void showTip(Item data);
 	}
 	//--------------------------
 	public int width(int a, int b) {
@@ -185,7 +187,7 @@ public class DiyLayout extends LinearLayout implements OnClickListener {
 			}
 		});
 		popupWindow.showAsDropDown(view,0,0);
-//		popupWindow.setOnDismissListener();, Gravity.CENTER, 0, 0
+//		popupWindow.setOnDismissListener();,  0, 0Gravity.CENTER,
 	}
 	// 子项的布局
 	private void showChild(View view,String[] s) {

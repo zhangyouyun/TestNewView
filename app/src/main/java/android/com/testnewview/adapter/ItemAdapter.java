@@ -66,9 +66,8 @@ public class ItemAdapter extends BaseAdapter {
         holder.textView.setGravity(View.TEXT_ALIGNMENT_CENTER);
         holder.textView.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-//                if(v.getTag()==1){}
                 Toast.makeText(context, i.getName()+"", Toast.LENGTH_SHORT).show();
-//                    v.setBackground(v.getResources().getDrawable(R.drawable.corner_click));
+                    v.setBackground(v.getResources().getDrawable(R.drawable.selector));
             }
         });
 //        holder.textView.setOnTouchListener();
